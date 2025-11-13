@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Assinatura Premium — Cesta Básica Fácil</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="brand">
+        <img src="https://iili.io/KpsKNXS.png" alt="logo" class="logo">
+        <div class="brand-text">
+          <div class="app-name">Cesta Básica Fácil</div>
+          <div class="app-tag">Comparador de preços — Cáceres-MT</div>
+        </div>
+      </a>
+
+      <nav class="nav">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="produtos.html" class="nav-link">Produtos</a>
+        <a href="mercados.html" class="nav-link">Mercados</a>
+        <a href="contato.html" class="nav-link">Contato</a>
+        <div class="user-auth-container">
+          <a href="cadastro.html" id="authLink" class="nav-link auth-link">Entrar / Cadastrar</a>
+          <div id="userMenuDropdown" class="user-menu-dropdown hidden">
+            <a href="#" data-action="my-account"><i class="fas fa-user-circle"></i> Minha Conta</a>
+            <a href="#" data-action="my-info"><i class="fas fa-info-circle"></i> Minhas Informações</a>
+            <a href="pagamento.html" data-action="manage-sub"><i class="fas fa-credit-card"></i> Gerenciar Assinatura</a>
+            <a href="#" data-action="logout"><i class="fas fa-sign-out-alt"></i> Sair</a>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="login-section">
+      <div class="auth-card payment-card">
+        <h2>Assinatura Premium</h2>
+        <p class="muted" style="margin-bottom:15px;">Assinatura mensal para liberar todos os recursos (rotas e contatos). Cancele quando quiser.</p>
+        <div class="price-box">
+          <div class="price-value">R$ 5,00<span class="muted small">/mês</span></div>
+          <div class="muted small">Acesso ilimitado</div>
+        </div>
+        
+        <label style="margin-top:15px;">Método de Pagamento</label>
+        <select id="paymentMethod" class="form-control" style="margin-top:8px;">
+          <option value="card">Cartão de Crédito</option>
+          <option value="pix">PIX</option>
+          <option value="boleto">Boleto</option>
+        </select>
+
+        <!-- Seção Cartão de Crédito -->
+        <div id="cardFields" class="payment-fields">
+          <label>Número do Cartão</label>
+          <input id="cardNumber" class="form-control" type="text" placeholder="xxxx xxxx xxxx xxxx">
+          <label>Nome impresso no Cartão</label>
+          <input id="cardHolderName" class="form-control" type="text" placeholder="Nome Completo">
+          <div style="display:flex; gap:10px;">
+            <div style="flex:1;">
+              <label>Validade</label>
+              <input id="cardExpiry" class="form-control" type="text" placeholder="MM/AA">
+            </div>
+            <div style="flex:1;">
+              <label>CVV</label>
+              <input id="cardCvv" class="form-control" type="text" placeholder="xxx">
+            </div>
+          </div>
+          <button id="btnPayCard" class="btn primary" style="margin-top:15px; width:100%"><i class="fas fa-credit-card"></i> Pagar R$ 5,00 com Cartão</button>
+        </div>
+
+        <!-- Seção Pix / Boleto -->
+        <div id="generalFields" class="payment-fields hidden">
+          <label>Nome do Pagador</label>
+          <input id="payerName" class="form-control" type="text" placeholder="Nome Completo">
+          <label>CPF do Pagador</label>
+          <input id="payerCpf" class="form-control" type="text" placeholder="000.000.000-00">
+          <button id="btnGenerate" class="btn primary" style="margin-top:15px; width:100%"><i class="fas fa-qrcode"></i> Gerar Código / Boleto</button>
+        </div>
+
+        <div id="paymentMessage" class="muted" style="margin-top:10px; text-align:center;"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div>© 2025 Cesta Básica Fácil — Dados fictícios</div>
+      <div class="muted">Desenvolvido para demonstração</div>
+    </div>
+  </footer>
+
+  <!-- Modal de Pagamento Gerado / Sucesso -->
+  <div id="paymentModal" class="modal hidden">
+    <div class="modal-content">
+      <h3 id="modalTitle"></h3>
+      <p id="modalMessage"></p>
+      <div id="modalDetails"></div>
+      <button class="btn primary" id="modalCloseAndLogin" style="margin-top:15px;">Entendi, Ir para o App</button>
+    </div>
+  </div>
+
+  <!-- Modal de Alerta Customizado -->
+  <div id="customAlertModal" class="modal hidden">
+    <div class="modal-content">
+      <p id="customAlertMessage"></p>
+      <button class="btn primary" id="customAlertClose">Entendi</button>
+    </div>
+  </div>
+
+  <script src="script.js" defer></script>
+</body>
+</html>

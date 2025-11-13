@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Produtos — Cesta Básica Fácil</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="brand">
+        <img src="https://iili.io/KpsKNXS.png" alt="logo" class="logo">
+        <div class="brand-text">
+          <div class="app-name">Cesta Básica Fácil</div>
+          <div class="app-tag">Comparador de preços — Cáceres-MT</div>
+        </div>
+      </a>
+
+      <nav class="nav">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="produtos.html" class="nav-link">Produtos</a>
+        <a href="mercados.html" class="nav-link">Mercados</a>
+        <a href="contato.html" class="nav-link">Contato</a>
+        <div class="user-auth-container">
+          <a href="cadastro.html" id="authLink" class="nav-link auth-link">Entrar / Cadastrar</a>
+          <div id="userMenuDropdown" class="user-menu-dropdown hidden">
+            <a href="#" data-action="my-account"><i class="fas fa-user-circle"></i> Minha Conta</a>
+            <a href="#" data-action="my-info"><i class="fas fa-info-circle"></i> Minhas Informações</a>
+            <a href="pagamento.html" data-action="manage-sub"><i class="fas fa-credit-card"></i> Gerenciar Assinatura</a>
+            <a href="#" data-action="logout"><i class="fas fa-sign-out-alt"></i> Sair</a>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="section">
+      <div class="filters-row">
+        <input id="prodSearch" type="search" placeholder="Buscar produto" />
+        <select id="filterMarket">
+          <option value="">Todos os mercados</option>
+        </select>
+        <select id="filterCategory">
+          <option value="">Todas as categorias</option>
+        </select>
+        <div class="price-input-max">
+          <label for="priceMaxInput">Preço Máx. R$</label>
+          <input id="priceMaxInput" type="number" min="0" max="999" value="100">
+        </div>
+        <button id="clearFilters" class="btn">Limpar</button>
+      </div>
+
+      <div id="productsList" class="grid cards"></div>
+
+      <div id="loginNotice" class="notice muted hidden">
+        🔒 Faça login e assine para ver contatos e rotas dos mercados.
+        <a href="cadastro.html">Entrar / Assinar</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div>© 2025 Cesta Básica Fácil — Dados fictícios</div>
+      <div class="muted">Desenvolvido para demonstração</div>
+    </div>
+  </footer>
+
+  <!-- Modal de Detalhes do Produto -->
+  <div id="productDetailModal" class="modal hidden">
+    <div class="modal-content product-detail-modal-content">
+      <button class="modal-close-btn" id="closeDetailModal">&times;</button>
+      <div id="productDetailContent">
+        <!-- Conteúdo dinâmico será injetado aqui -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de Alerta Customizado -->
+  <div id="customAlertModal" class="modal hidden">
+    <div class="modal-content">
+      <p id="customAlertMessage"></p>
+      <button class="btn primary" id="customAlertClose">Entendi</button>
+    </div>
+  </div>
+
+  <script src="script.js" defer></script>
+</body>
+</html>

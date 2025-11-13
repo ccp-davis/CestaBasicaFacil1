@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Contato — Cesta Básica Fácil</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="brand">
+        <img src="https://iili.io/KpsKNXS.png" alt="logo" class="logo">
+        <div class="brand-text">
+          <div class="app-name">Cesta Básica Fácil</div>
+          <div class="app-tag">Comparador de preços — Cáceres-MT</div>
+        </div>
+      </a>
+
+      <nav class="nav">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="produtos.html" class="nav-link">Produtos</a>
+        <a href="mercados.html" class="nav-link">Mercados</a>
+        <a href="contato.html" class="nav-link">Contato</a>
+        <div class="user-auth-container">
+          <a href="cadastro.html" id="authLink" class="nav-link auth-link">Entrar / Cadastrar</a>
+          <div id="userMenuDropdown" class="user-menu-dropdown hidden">
+            <a href="#" data-action="my-account"><i class="fas fa-user-circle"></i> Minha Conta</a>
+            <a href="#" data-action="my-info"><i class="fas fa-info-circle"></i> Minhas Informações</a>
+            <a href="pagamento.html" data-action="manage-sub"><i class="fas fa-credit-card"></i> Gerenciar Assinatura</a>
+            <a href="#" data-action="logout"><i class="fas fa-sign-out-alt"></i> Sair</a>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="section">
+      <h2>Fale Conosco</h2>
+      <div class="contact-grid">
+        <div class="contact-card">
+          <h3>Suporte via Formulário</h3>
+          <p class="muted">Envie uma mensagem para o nosso time de suporte e retornaremos via e-mail.</p>
+          <label>Nome</label>
+          <input id="contactName" class="form-control" type="text">
+          <label>E-mail</label>
+          <input id="contactEmail" class="form-control" type="email">
+          <label>Mensagem</label>
+          <textarea id="contactMsg" class="form-control" rows="4"></textarea>
+          <button id="sendContact" class="btn primary" style="margin-top:8px"><i class="fas fa-paper-plane"></i> Enviar Mensagem</button>
+        </div>
+
+        <div class="contact-card">
+          <h3>Contato Rápido</h3>
+          <p class="muted">Atendimento prioritário via WhatsApp.</p>
+          <button id="waSupport" class="btn whatsapp-btn"><i class="fab fa-whatsapp"></i> Abrir WhatsApp</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div>© 2025 Cesta Básica Fácil — Dados fictícios</div>
+      <div class="muted">Desenvolvido para demonstração</div>
+    </div>
+  </footer>
+
+  <!-- Modal de Alerta Customizado -->
+  <div id="customAlertModal" class="modal hidden">
+    <div class="modal-content">
+      <p id="customAlertMessage"></p>
+      <button class="btn primary" id="customAlertClose">Entendi</button>
+    </div>
+  </div>
+
+  <script src="script.js" defer></script>
+</body>
+</html>
