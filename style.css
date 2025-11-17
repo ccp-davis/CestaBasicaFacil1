@@ -306,12 +306,11 @@ h2{font-size:22px;color:var(--primary-600);margin-bottom:16px; border-bottom: 2p
     font-weight: 600;
 }
 /* Classe de destaque para o aviso de assinatura */
-.premium-warning {
-    color: var(--error-color); 
-    font-weight: 600;
-    font-size: 13px;
-    margin-bottom: 10px;
-    display: block;
+.about-card p{
+    line-height: 1.6; 
+    text-align: justify; /* MUDANÇA APLICADA AQUI */
+    margin-bottom: 15px; 
+    color: #333;
 }
 
 /* UTILITIES */
