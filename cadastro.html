@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Cadastro / Login — Cesta Básica Fácil</title>
+  <title>Cadastro — Cesta Básica Fácil</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
@@ -41,16 +41,13 @@
     <section class="login-section">
       <div class="auth-card">
         <h2>Cadastrar para Continuar</h2>
-        <p class="muted">Preencha seus dados para avançar para a assinatura e liberar todos os recursos.</p>
+        <p class="muted">Preencha seu e-mail e senha para avançar para a assinatura e liberar os recursos.</p>
 
-        <label>Nome completo</label>
-        <input id="regName" class="form-control" type="text" placeholder="Nome completo">
+        <input id="regName" type="hidden" value="">
+        <input id="regPhone" type="hidden" value="">
 
         <label>E-mail</label>
         <input id="regEmail" class="form-control" type="email" placeholder="seu@exemplo.com">
-
-        <label>Telefone</label>
-        <input id="regPhone" class="form-control" type="tel" placeholder="(xx) xxxxx-xxxx">
 
         <label>Senha</label>
         <input id="regPass" class="form-control" type="password" placeholder="Senha">
@@ -59,14 +56,27 @@
         <input id="regPass2" class="form-control" type="password" placeholder="Confirmar senha">
 
         <div class="row" style="gap:8px;margin-top:12px">
-          <button id="btnProceedToPayment" class="btn primary"><i class="fas fa-credit-card"></i> Avançar para Assinatura</button>
+          <button id="btnProceedToPayment" class="btn primary"><i class="fas fa-credit-card"></i> Cadastrar e Avançar</button>
           <button id="btnLogout" class="btn" style="display:none"><i class="fas fa-sign-out-alt"></i> Sair</button>
         </div>
 
         <div id="regMessage" class="muted" style="margin-top:10px"></div>
 
+        <div style="margin-top: 20px; text-align: center;">
+            <p class="muted small" style="margin-bottom: 10px;">Ou use:</p>
+            <button class="btn btn-social google" data-provider="Google">
+              <img src="https://iili.io/fJOGGNS.md.png" alt="Google Logo"> Continuar com Google
+            </button>
+            <button class="btn btn-social facebook" data-provider="Facebook">
+              <img src="https://iili.io/fJOVTCX.md.webp" alt="Facebook Logo"> Continuar com Facebook
+            </button>
+            <button class="btn btn-social apple" data-provider="Apple">
+              <img src="https://iili.io/fJOXWkx.md.png" alt="Apple Logo"> Continuar com Apple
+            </button>
+        </div>
+        
         <div class="login-link-area">
-          <p class="muted small" style="margin-top:15px">Já tem conta? <a href="#" id="loginInstead">Fazer Login</a></p>
+          <p class="muted small" style="margin-top:15px">Já tem conta? <a href="login.html" id="loginInstead">Fazer Login</a></p>
         </div>
       </div>
     </section>
@@ -79,7 +89,6 @@
     </div>
   </footer>
 
-  <!-- Modal de Alerta Customizado -->
   <div id="customAlertModal" class="modal hidden">
     <div class="modal-content">
       <p id="customAlertMessage"></p>

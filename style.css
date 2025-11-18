@@ -24,6 +24,28 @@ html,body{height:100%;margin:0;padding:0;font-family:Poppins,Inter,system-ui,-ap
 .brand-text .app-name{font-weight:700;color:#fff; line-height: 1.2;}
 .brand-text .app-tag{font-size:12px;color:rgba(255,255,255,0.9); line-height: 1.2;}
 
+/* NOVO: Elemento de status da geolocalização no cabeçalho */
+.geo-status-header {
+    color: rgba(255,255,255,0.8);
+    font-size: 13px;
+    margin-left: 10px;
+    font-weight: 500;
+    white-space: nowrap;
+}
+/* ALTERADO: Cor do botão de localização para melhor leitura */
+.btn-geo-header {
+    background: #FFD700; /* Dourado/Amarelo de Destaque */
+    color: var(--primary-600); /* Texto escuro primário */
+    padding: 6px 10px;
+    font-size: 14px;
+    font-weight: 700; /* Mais forte para destacar */
+    margin-left: 10px;
+    flex-shrink: 0;
+}
+.btn-geo-header:hover {
+    background: #ffc400;
+}
+
 /* NAVIGATION */
 .nav{display:flex;gap:12px;align-items:center; flex-wrap: wrap; margin-top: 5px; justify-content: flex-end; flex-grow: 1;}
 .nav-link{color:rgba(255,255,255,0.95);text-decoration:none;padding:8px 10px;border-radius:8px;font-weight:600; white-space: nowrap;}
@@ -78,6 +100,34 @@ html,body{height:100%;margin:0;padding:0;font-family:Poppins,Inter,system-ui,-ap
 .whatsapp-btn{background-color: var(--whatsapp); color: #fff; justify-content: center; padding: 12px 15px; font-size: 16px;}
 .whatsapp-btn:hover{background-color: #20b057;}
 
+/* BOTÕES SOCIAIS */
+.btn-social {
+    width: 100%;
+    justify-content: center;
+    margin-bottom: 8px;
+    font-weight: 600;
+    font-size: 15px;
+}
+.btn-social.google { background-color: #DB4437; color: #fff; }
+.btn-social.google:hover { background-color: #c03d32; }
+.btn-social.facebook { background-color: #4267B2; color: #fff; }
+.btn-social.facebook:hover { background-color: #3b5a9a; }
+.btn-social.apple { background-color: #000; color: #fff; }
+.btn-social.apple:hover { background-color: #333; }
+
+/* NOVO: Estilo para as logos dentro dos botões sociais */
+.btn-social img {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+    margin-right: 5px;
+    /* Ajustes específicos para a logo do Google que é colorida */
+    filter: drop-shadow(0 0 0 white); 
+}
+.btn-social.apple img {
+    filter: invert(1); /* Inverte a logo da Apple para ficar branca */
+}
+
 /* CHIPS / CATEGORIES */
 .hero-cats{margin-top: 15px; display: flex; justify-content: center; flex-wrap: wrap; gap: 8px;}
 .chip{padding:8px 12px;border-radius:999px;border:1px solid rgba(0,0,0,0.04);background:#fff;cursor:pointer; display: inline-flex; align-items: center; gap: 6px; font-weight: 600;}
@@ -103,7 +153,7 @@ h2{font-size:22px;color:var(--primary-600);margin-bottom:16px; border-bottom: 2p
     box-shadow: 0 4px 12px rgba(0,0,0,0.05);
 }
 .about-card{max-width: 800px; margin: 0 auto; padding: 25px; background: #fff; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);}
-.about-card p{line-height: 1.6; text-align: left; margin-bottom: 15px; color: #333;}
+.about-card p{line-height: 1.6; text-align: justify; margin-bottom: 15px; color: #333;}
 .about-card a{display: inline-flex; align-items: center; gap: 8px; text-decoration: none;}
 
 /* FEATURES (como funciona) */
@@ -380,6 +430,20 @@ h2{font-size:22px;color:var(--primary-600);margin-bottom:16px; border-bottom: 2p
       border-radius: 0 0 8px 8px;
   }
   
+  /* Botão de Localização no Header (Mobile) */
+  .btn-geo-header {
+      width: 90%;
+      margin: 5px auto 0 auto;
+      justify-content: center;
+      display: flex;
+  }
+  .geo-status-header {
+      margin: 5px auto 0 auto;
+      text-align: center;
+      display: block;
+      width: 90%;
+  }
+
   /* Outras Seções (mantidas as regras anteriores) */
   .grid{grid-template-columns:repeat(1,1fr)}
   .contact-grid{grid-template-columns:1fr}

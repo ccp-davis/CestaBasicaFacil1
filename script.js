@@ -44,14 +44,27 @@ const DATA = {
 
     { productId:5, marketId:1, preco:10.50 },
     { productId:5, marketId:2, preco:9.99 },
+    { productId:5, marketId:4, preco:10.19 }, // Óleo no Central
 
     { productId:6, marketId:1, preco:4.50 },
     { productId:6, marketId:3, preco:4.79 },
+    { productId:6, marketId:4, preco:4.65 }, // Detergente no Central
 
-    // extras
+    // extras: MAIS MERCADOS PARA AÇÚCAR, LEITE E MACARRÃO
     { productId:7, marketId:1, preco:4.20 },
+    { productId:7, marketId:2, preco:4.35 }, 
+    { productId:7, marketId:3, preco:4.10 }, 
+    { productId:7, marketId:4, preco:4.25 }, // Açúcar no Central
+    
     { productId:8, marketId:2, preco:3.99 },
-    { productId:9, marketId:3, preco:2.99 }
+    { productId:8, marketId:1, preco:4.05 }, 
+    { productId:8, marketId:4, preco:3.89 }, 
+    { productId:8, marketId:3, preco:3.95 }, // Leite no Bom Preço
+
+    { productId:9, marketId:3, preco:2.99 },
+    { productId:9, marketId:1, preco:3.15 }, 
+    { productId:9, marketId:4, preco:3.09 },
+    { productId:9, marketId:2, preco:3.05 } // Macarrão no Econômico
   ]
 };
 
@@ -174,7 +187,7 @@ function updateAuthUI(){
 
   if(authLink){
     if(user){
-      authLink.textContent = `Olá, ${user.name.split(' ')[0]} ${user.isSubscribed ? '✅' : '🔒'}`;
+      authLink.textContent = `Olá, ${user.name ? user.name.split(' ')[0] : user.email.split('@')[0]} ${user.isSubscribed ? '✅' : '🔒'}`;
       authLink.href = '#'; // Não navega, apenas abre o menu
       authLink.classList.add('logged');
       userMenuDropdown?.classList.add('hidden'); // Esconde o menu por padrão
@@ -198,18 +211,19 @@ function updateAuthUI(){
   const btnLogout = document.getElementById('btnLogout');
   const btnProceedToPayment = document.getElementById('btnProceedToPayment');
   const regMessage = document.getElementById('regMessage');
-  const loginInstead = document.getElementById('loginInstead');
-
+  
   if(btnProceedToPayment){
     if(user && user.isSubscribed){
       btnProceedToPayment.style.display = 'none';
       regMessage && (regMessage.innerHTML = `<i class="fas fa-check-circle" style="color:#25D366"></i> Você já é um assinante Premium!`);
     } else if(user && !user.isSubscribed) {
+      // Se já está logado mas não assinou
       btnProceedToPayment.textContent = 'Continuar para Pagamento';
       btnProceedToPayment.style.display = 'inline-block';
-      regMessage && (regMessage.innerHTML = `Olá, ${user.name}. Continue para gerenciar sua assinatura.`);
+      regMessage && (regMessage.innerHTML = `Olá, ${user.name ? user.name : user.email}. Continue para gerenciar sua assinatura.`);
     } else {
-      btnProceedToPayment.textContent = 'Avançar para Assinatura';
+      // Se não está logado
+      btnProceedToPayment.textContent = 'Cadastrar e Avançar';
       btnProceedToPayment.style.display = 'inline-block';
       regMessage && (regMessage.textContent = '');
     }
@@ -217,28 +231,7 @@ function updateAuthUI(){
 
   // Lógica de mostrar/esconder logout no cadastro (usado como 'Minhas Informações')
   if (btnLogout) {
-    btnLogout.style.display = user ? 'inline-block' : 'none';
-  }
-  if (loginInstead) {
-    // Simula o login para um usuário já cadastrado
-    loginInstead.onclick = (e) => {
-      e.preventDefault();
-      const u = getCurrentUser();
-      if (u) {
-        showAlert(`Bem-vindo(a) de volta, ${u.name}! Você já está logado.`, 'index.html');
-      } else {
-        // Simulação de login
-        const email = document.getElementById('regEmail')?.value.trim();
-        const pass = document.getElementById('regPass')?.value;
-        if (email && pass) {
-          // Em um sistema real, aqui você faria a checagem. Como é simulação, apenas loga com dados dummy.
-          setCurrentUser({ name: 'Usuário Simulado', email: email, phone: '(99) 99999-9999', isSubscribed: false });
-          showAlert('Login Simulado realizado! Você pode prosseguir para a assinatura.', 'pagamento.html');
-        } else {
-          showAlert('Preencha E-mail e Senha para simular o Login.');
-        }
-      }
-    };
+    btnLogout.style.style.display = user ? 'inline-block' : 'none';
   }
 
   // Notices on products/markets
@@ -248,13 +241,12 @@ function updateAuthUI(){
   if(noticeM) noticeM.classList.toggle('hidden', user && user.isSubscribed);
 }
 
-// ---------------------- CADASTRO / LOGOUT / MENU ----------------------
+// ---------------------- CADASTRO / LOGIN / LOGOUT / MENU ----------------------
 document.addEventListener('DOMContentLoaded', ()=>{
-
   // Configuração do Menu de Usuário
   setupUserMenu();
   
-  // Cadastro/Login/Avançar
+  // CADASTRO: Cadastrar e Avançar
   const btnProceedToPayment = document.getElementById('btnProceedToPayment');
   if(btnProceedToPayment){
     btnProceedToPayment.addEventListener('click', ()=>{
@@ -264,21 +256,54 @@ document.addEventListener('DOMContentLoaded', ()=>{
         return;
       }
 
-      const name = (document.getElementById('regName')||{}).value?.trim();
       const email = (document.getElementById('regEmail')||{}).value?.trim();
-      const phone = (document.getElementById('regPhone')||{}).value?.trim();
       const pass = (document.getElementById('regPass')||{}).value;
       const pass2 = (document.getElementById('regPass2')||{}).value;
-      const msg = document.getElementById('regMessage');
 
-      if(!name || !email || !phone || !pass || !pass2){ showAlert('Preencha todos os campos.'); return; }
+      if(!email || !pass || !pass2){ showAlert('Preencha E-mail e Senhas.'); return; }
       if(pass !== pass2){ showAlert('As senhas não conferem.'); return; }
 
       // salva (simulação)
-      setCurrentUser({ name, email, phone, isSubscribed: false });
+      setCurrentUser({ name: 'Novo Usuário', email: email, phone: '', isSubscribed: false });
       showAlert('Cadastro realizado! Você foi autenticado. Prossiga para a assinatura.', 'pagamento.html');
     });
   }
+
+  // LOGIN: Entrar (página login.html)
+  const btnLogin = document.getElementById('btnLogin');
+  if(btnLogin) {
+    btnLogin.addEventListener('click', () => {
+      const email = document.getElementById('loginEmail')?.value.trim();
+      const pass = document.getElementById('loginPass')?.value;
+      
+      if (email && pass) {
+        // Simulação de login: Se a senha for "123", loga.
+        if(pass === '123') {
+           const name = 'Usuário Simulado'; 
+           setCurrentUser({ name: name, email: email, isSubscribed: false });
+           showAlert(`Login Simulado realizado! Olá, ${name}.`, 'index.html');
+        } else {
+           showAlert('E-mail ou senha incorretos (simulação: use senha "123").');
+        }
+      } else {
+        showAlert('Preencha E-mail e Senha para Entrar.');
+      }
+    });
+  }
+  
+  // Lógica de Login Social (Simulação - para os botões em cadastro.html e login.html)
+  document.querySelectorAll('.btn-social').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          const provider = btn.dataset.provider;
+          const dummyEmail = `${provider.toLowerCase()}@simulacao.com`;
+          const name = `Usuário ${provider}`;
+          
+          setCurrentUser({ name: name, email: dummyEmail, phone: '', isSubscribed: false });
+          showAlert(`Login com ${provider} Simulado! Você está logado.`, 'index.html');
+      });
+  });
+
 
   // Ação de Sair (se for o botão na página de cadastro)
   const btnLogout = document.getElementById('btnLogout');
@@ -313,6 +338,10 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
   // produtos page: setup filters & render
   setupProductFilters();
+  
+  // NOVO: Adiciona listener para o botão de localização no HEADER (só existe em produtos.html)
+  const btnGeoHeader = document.getElementById('btnGeoHeader');
+  if(btnGeoHeader) btnGeoHeader.addEventListener('click', handleGeolocationHeader);
 
   // mercados page: render markets (distances empty until geolocation)
   renderMarkets();
@@ -342,6 +371,7 @@ function setupUserMenu(){
         logoutUser();
         showAlert('Você foi desconectado com sucesso.', 'index.html');
       } else if (action === 'my-account' || action === 'my-info') {
+        // Redireciona para cadastro, que agora funciona como 'Minhas Informações'
         showAlert(`Ação: ${link.textContent} (Simulação)\nDetalhes: Aqui você editaria seus dados ou veria seu status de assinatura.`, 'cadastro.html');
       } else if (action === 'manage-sub') {
         window.location.href = 'pagamento.html';
@@ -357,7 +387,8 @@ function setupPaymentPage() {
   const generalFields = document.getElementById('generalFields');
   const btnPayCard = document.getElementById('btnPayCard');
   const btnGenerate = document.getElementById('btnGenerate');
-
+  
+  // Garante que a página tem o formulário antes de tentar configurar
   if (!paymentMethod) return;
 
   // Função para alternar campos
@@ -384,12 +415,23 @@ function setupPaymentPage() {
     btnPayCard.addEventListener('click', () => {
       const number = document.getElementById('cardNumber').value.trim();
       const name = document.getElementById('cardHolderName').value.trim();
-      if (!number || !name) { showAlert('Preencha os dados do cartão.'); return; }
+      const dobCard = document.getElementById('payerDobCard').value.trim(); // NOVO CAMPO
+      if (!number || !name || !dobCard) { showAlert('Preencha todos os dados do pagador e do cartão, incluindo a Data de Nascimento.'); return; }
       
       // Simulação de Sucesso
       const user = getCurrentUser();
       if (user) {
-        setCurrentUser({ ...user, isSubscribed: true });
+        const namePayer = document.getElementById('payerNameCard').value.trim();
+        const cpfPayer = document.getElementById('payerCpfCard').value.trim();
+        
+        setCurrentUser({ 
+          ...user, 
+          isSubscribed: true, 
+          name: namePayer || user.name, 
+          phone: 'Telefone Simulado', 
+          cpf: cpfPayer || 'CPF Simulado',
+          dob: dobCard // Salva a data de nascimento (simulação)
+        });
         openPaymentModal('Cartão de Crédito', 'Pagamento Aprovado!', 'Sua assinatura Premium foi ativada com sucesso! Você já pode acessar todos os recursos do Cesta Básica Fácil.');
       }
     });
@@ -400,8 +442,9 @@ function setupPaymentPage() {
     btnGenerate.addEventListener('click', () => {
       const name = document.getElementById('payerName').value.trim();
       const cpf = document.getElementById('payerCpf').value.trim();
+      const dob = document.getElementById('payerDob').value.trim(); // NOVO CAMPO
       const method = paymentMethod.value;
-      if (!name || !cpf) { showAlert(`Preencha o Nome e CPF do pagador para gerar o ${method}.`); return; }
+      if (!name || !cpf || !dob) { showAlert(`Preencha o Nome, CPF e Data de Nascimento do pagador para gerar o ${method}.`); return; }
 
       const title = method === 'pix' ? 'QR Code PIX Gerado' : 'Boleto Gerado';
       const code = method === 'pix' ? '00190.00009 01234.567890 12345.678901 5 9227000000500' : '23790.00008 60000.000010 32770.123454 4 9227000000500';
@@ -409,11 +452,17 @@ function setupPaymentPage() {
 
       const details = `<div style="text-align:left; margin-top:10px;"><p style="font-size:14px; font-weight:700;">Código de Barras/PIX:</p><code style="word-break: break-all; font-size: 12px; display: block; background: #f7f7f7; padding: 8px; border-radius: 4px;">${code}</code></div>`;
 
-      // Neste caso, o user é autenticado ANTES de ir para essa página, mas a assinatura só é ativada no sucesso
-      // Como é simulação, ativamos imediatamente
       const user = getCurrentUser();
       if (user) {
-        setCurrentUser({ ...user, isSubscribed: true });
+        // Atualiza os dados do usuário (simulação)
+        setCurrentUser({ 
+          ...user, 
+          isSubscribed: true, 
+          name: name || user.name, 
+          phone: 'Telefone Simulado', 
+          cpf: cpf || 'CPF Simulado',
+          dob: dob // Salva a data de nascimento (simulação)
+        });
         openPaymentModal(title, msg, details);
       }
     });
@@ -438,9 +487,6 @@ function openPaymentModal(title, message, detailsHTML) {
 
 // ---------------------- RENDER HOME CARDS ----------------------
 function renderHomeCards(){
-  // Removida a seção de destaque da Home (conforme solicitado).
-  // Seção 'Sobre' foi adicionada diretamente no HTML.
-
   // hero search
   const goSearchBtn = document.getElementById('goSearchBtn');
   const homeSearch = document.getElementById('homeSearch');
@@ -609,6 +655,7 @@ function getPricesForProduct(productId){
 
 // ---------------------- MERCADOS (geolocalização e render) ----------------------
 let userCoords = null;
+let geoStatusElementHeader = null; // Elemento para o status da localização no HEADER
 
 function getMarketLogoSVG(marketName) {
     // Simulação de logo customizada com base no nome
@@ -671,22 +718,44 @@ function renderMarkets(){
   // For Rota/WA, we use anchor tags <a> now in the HTML generation above.
 }
 
-// geolocation button
-document.addEventListener('click', (ev)=>{
-  if(ev.target && ev.target.id === 'btnGetLocation'){
-    const status = document.getElementById('geoStatus');
-    if(!navigator.geolocation){ showAlert('Geolocalização não suportada pelo seu navegador.'); return; }
-    status.textContent = 'Obtendo localização...';
+// LÓGICA DE GEOLOCALIZAÇÃO
+function handleGeolocation(statusElement) {
+    if(!navigator.geolocation){ 
+        showAlert('Geolocalização não suportada pelo seu navegador.'); 
+        statusElement.textContent = 'Indisponível';
+        return; 
+    }
+    statusElement.textContent = 'Obtendo localização...';
     navigator.geolocation.getCurrentPosition(pos=>{
       userCoords = { lat: pos.coords.latitude, lng: pos.coords.longitude };
-      status.textContent = `Localização obtida (${userCoords.lat.toFixed(4)}, ${userCoords.lng.toFixed(4)})`;
-      renderMarkets(); // atualiza distâncias
+      statusElement.textContent = `Localização: ${userCoords.lat.toFixed(4)}, ${userCoords.lng.toFixed(4)}`;
+      // Atualiza o display da localização no header, se estiver na página produtos
+      if (geoStatusElementHeader) geoStatusElementHeader.textContent = `Localização: ${userCoords.lat.toFixed(4)}, ${userCoords.lng.toFixed(4)}`;
+      renderMarkets(); // atualiza distâncias (em mercados.html)
     }, err=>{
-      status.textContent = 'Permissão negada ou erro ao obter localização.';
+      statusElement.textContent = 'Permissão negada ou erro ao obter localização.';
+      if (geoStatusElementHeader) geoStatusElementHeader.textContent = 'Localização: Permissão negada';
       console.warn(err);
       // não trava: userCoords fica null
       renderMarkets();
     }, { enableHighAccuracy:true, timeout:10000 });
+}
+
+// Botão de localização no HEADER (só existe em produtos.html)
+function handleGeolocationHeader() {
+    if (!geoStatusElementHeader) {
+        geoStatusElementHeader = document.getElementById('geoStatusHeader');
+        if (!geoStatusElementHeader) return;
+    }
+    geoStatusElementHeader.classList.remove('hidden');
+    handleGeolocation(geoStatusElementHeader);
+}
+
+// geolocation button na página mercados.html
+document.addEventListener('click', (ev)=>{
+  if(ev.target && ev.target.id === 'btnGetLocation'){
+    const status = document.getElementById('geoStatus');
+    handleGeolocation(status);
   }
 });
 
@@ -724,4 +793,8 @@ document.addEventListener('DOMContentLoaded', ()=>{
       }
     });
   }
+  
+  // Define o elemento de status do header
+  geoStatusElementHeader = document.getElementById('geoStatusHeader');
+  if(geoStatusElementHeader) geoStatusElementHeader.classList.add('hidden');
 });
